@@ -93,7 +93,6 @@ $("#start").on("click", function () {
     generateQuiz(myQuestions, quizContainer);
     run();
 });
-
 function run() {
     intervalId = setInterval(decrement, 1000);
 }
@@ -131,18 +130,11 @@ function generateQuiz(myQuestions, quizContainer) {
                 // ...add an html radio button
                 answers.push(
                     '<label>' + " " +
-                    '<input type="radio" name="question' + i + '" value="' + letter + '">' + ' ' +
+                    '<input type="radio" name="question' + i + '" value="' + " " + letter + '">' + ' ' +
                     letter + ': ' +
                     myQuestions[i].answers[letter] +
                     '</label>'
                 );
-
-                $("input").click(function () {
-                    var UserClick = $(this).val();
-                    console.log("Here");
-
-
-                });
             }
             // add this question and its answers to the output
             output.push(
@@ -159,15 +151,18 @@ function generateQuiz(myQuestions, quizContainer) {
 //  // keep track of user's answers
 var userAnswer = '';
 var numCorrect = 0;
+var userAnswer = '';
+var numCorrect = 0;
 var numIncorrect = 0;
 
 
-
-//
-var answerSelected = $('input[name=question]:checked', ".answers").val();
-console.log(answerSelected);
+//var answerSelected = $("input[name = '"question + i + ']:checked").val();
+var answerSelected = $("input[value = letter].answers:checked").val();
 
 
+
+//   // find selected answer
+//            userAnswer = (answerContainers[i].querySelector('input[name=question' + i + ']:checked') || {}).value;
 
 // for each question...
 function showResult(myQuestions) {
@@ -193,5 +188,5 @@ $("#submit").on("click", function () {
     $("#quiz").html(
         '<div>' + "Correct Answer: " + numCorrect + '</div>' +
         '<div>' + "Incorrect Answer: " + numIncorrect + '</div>' +
-   
+        '<div>' + "Unanswer: " + numIncorrect + '</div>');
 });
