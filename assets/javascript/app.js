@@ -93,6 +93,7 @@ $("#start").on("click", function () {
     generateQuiz(myQuestions, quizContainer);
     run();
 });
+
 function run() {
     intervalId = setInterval(decrement, 1000);
 }
@@ -108,6 +109,7 @@ function decrement() {
         stop();
         //  Alert the user that time is up.
         alert("Time Up!");
+        showResult(myQuestions);
     }
 }
 //  The stop function
@@ -130,7 +132,7 @@ function generateQuiz(myQuestions, quizContainer) {
                 // ...add an html radio button
                 answers.push(
                     '<label>' + " " +
-                    '<input type="radio" name="question' + i + '" value="' + " " + letter + '">' + ' ' +
+                    '<input type="radio" name="question' + i + '" value="' + letter + '">' + ' ' +
                     letter + ': ' +
                     myQuestions[i].answers[letter] +
                     '</label>'
@@ -151,42 +153,47 @@ function generateQuiz(myQuestions, quizContainer) {
 //  // keep track of user's answers
 var userAnswer = '';
 var numCorrect = 0;
-var userAnswer = '';
-var numCorrect = 0;
 var numIncorrect = 0;
-
-
-//var answerSelected = $("input[name = '"question + i + ']:checked").val();
-var answerSelected = $("input[value = letter].answers:checked").val();
-
-
-
-//   // find selected answer
-//            userAnswer = (answerContainers[i].querySelector('input[name=question' + i + ']:checked') || {}).value;
 
 // for each question...
 function showResult(myQuestions) {
+
+    var answerContainers = $('.answers');
+    var currentAnswer = null;
     for (var i = 0; i < myQuestions.length; i++) {
+        
+        userAnswer = (answerContainers[i].querySelector('input[name=question' + i + ']:checked') || {}).value;
+        
+         if ($('input[name=question' + i + ']').is(':checked')){
+       
         // if answer is correct
-        if (answerSelected === myQuestions[i].correctAnswer) {
+         if ( userAnswer  == (myQuestions[i].correctAnswer) ) {
             // add to the number of correct answers
             numCorrect++;
-            console.log(numCorrect);
+            console.log(myQuestions[i].correctAnswer);
+            console.log(userAnswer);
         }
         // if answer is wrong or blank
         else {
             numIncorrect++;
-            console.log(numIncorrect);
+            console.log(myQuestions[i].correctAnswer);
+            console.log(userAnswer);
+            
         }
+         }
     };
 };
 $("#submit").on("click", function () {
+    
+ 
+    console.log(unAnswerQuestion);
     $("#submit").hide();
     showResult(myQuestions);
+    var unAnswerQuestion = myQuestions.length - numCorrect - numIncorrect;
     stop();
     $("#timertext").html(" All Done! ");
     $("#quiz").html(
         '<div>' + "Correct Answer: " + numCorrect + '</div>' +
         '<div>' + "Incorrect Answer: " + numIncorrect + '</div>' +
-        '<div>' + "Unanswer: " + numIncorrect + '</div>');
+        '<div>' + "Unanswer: " + unAnswerQuestion + '</div>');
 });
